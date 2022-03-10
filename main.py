@@ -97,11 +97,34 @@ def logged_in(key, num):
                 print(divider)
                 for i in profile:
                     password = decrypt_password(key, i[2]).decode()
-                    print(f"\nName: {i[1]}\nPassword: {password}\n")
+                    print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
                 print(divider)
         
         elif do.lower() in ["f", "find"]:
-            pass
+            search_type = int(input("Search Type:\n\n0: ID\n1: Name\n\nType 0 or 1"))
+            found = False
+
+            if search_type == 0:
+                _id = int(input("Enter ID: "))
+                for i in profile:
+                    if i[0] == _id:
+                        found = True
+                        password = decrypt_password(key, i[2]).decode()
+                        print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
+                if found == False:
+                    print("Not found")
+
+
+            if search_type == 1:
+                name = input("Enter name: ")
+                for i in profile:
+                    if i[1].lower() == name.lower():
+                        found = True
+                        password = decrypt_password(key, i[2]).decode()
+                        print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
+                if found == False:
+                    print("Not found")
+
 
         elif do.lower() in ["l", "logout"]:
             return
