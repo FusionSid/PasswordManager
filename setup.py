@@ -1,7 +1,7 @@
 import sqlite3
 from utils import *
 
-password = input("PASSWORD: ")
+password = input("Set password for master Profile: ")
 password = encrypt(password)
 
 with sqlite3.connect("utils/database/main.db") as db:
@@ -13,7 +13,7 @@ with sqlite3.connect("utils/database/main.db") as db:
         password TEXT
     )""")
 
-    cur.execute(f"INSERT INTO Profiles (name, password) VALUES ('testing', '{password}')")
+    cur.execute(f"INSERT INTO Profiles (name, password) VALUES ('master', '{password}')")
 
     db.commit()
 

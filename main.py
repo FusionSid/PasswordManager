@@ -2,23 +2,45 @@ from utils import *
 
 profiles = get_main_db()
 
-# iorg = input("(i/g): ")
+divider = "-----------------------------------------------------------------------------------------------------------------------\n"
 
-# if iorg == "g":
-#     database = get_db()
-#     print(database)
-#     database = database[profile_number-1]
-#     for i in database:
-#         print(f"Name: {i[1]}\nPassword: {i[2]}")
-#         print("Decryted:", (decrypt_password(get_key(), i[2])).decode())
+lockImg = """                               
+                                   
+                                                          ^jEQBQDj^             
+                                                       r#@@@@@@@@@#r           
+                                                       ?@@@#x_`_v#@@@x          
+                                                       g@@@!     !@@@Q          
+                                                       Q@@@_     _@@@B          
+                                                    rgg@@@@QgggggQ@@@@ggr       
+                                                    Y@@@@@@@@@@@@@@@@@@@Y       
+                                                    Y@@@@@@@Qx^xQ@@@@@@@Y       
+                                                    Y@@@@@@@^   ~@@@@@@@Y       
+                                                    Y@@@@@@@@r r#@@@@@@@Y       
+                                                    Y@@@@@@@@c,c@@@@@@@@Y       
+                                                    Y@@@@@@@@@@@@@@@@@@@Y       
+                                                    v###################v       
+                                                   
+                                                                
+    """
 
-# if iorg == "i":
-#     name = input("Name: ")
-#     password = input("Password: ")
-#     insert_password(name, password, 1)
+checkImg = """                               
+                                   
+                                                                       `xx.  
+                                                                     'k#@@@h`
+                                                                   _m@@@@@@Q,
+                                                                 "M@@@@@@$*  
+                                                 `xk<          =N@@@@@@9=    
+                                                T#@@@Qr      ^g@@@@@@5,      
+                                                y@@@@@@Bv  ?Q@@@@@@s-        
+                                                `V#@@@@@#B@@@@@@w'          
+                                                    `}#@@@@@@@@#T`            
+                                                      vB@@@@Bx               
+                                                        )ER)                            
+                                                                                                       
+    """
 
 
-
+print(lockImg)
 
 def login():
     profile_name_list = '\n'.join([f"{p} : {i[1]}" for p, i in enumerate(profiles)])
@@ -72,10 +94,11 @@ def logged_in(key, num):
             if profile is None or len(profile) == 0:
                 print("You don't have anything stored")
             else:
-                print(profile)
+                print(divider)
                 for i in profile:
                     password = decrypt_password(key, i[2]).decode()
                     print(f"\nName: {i[1]}\nPassword: {password}\n")
+                print(divider)
         
         elif do.lower() in ["f", "find"]:
             pass
@@ -87,6 +110,7 @@ def logged_in(key, num):
             print("Invalid Option")
 
 while True:
+    profiles = get_main_db()
     do = input("\nWhat would you like to do?\nOptions:\nl or login - to login\nc to create - To create a new profile\nq or quit - To quit\n> ")
 
     if do.lower() in ["l", "login"]:
@@ -96,7 +120,15 @@ while True:
         logged_in(key, log[0])
 
     elif do.lower() in ["c", "create"]:
-        print("ok")
+        name = input("Enter profile name: ")
+        password = encrypt(input("ENTER PASSWORD: "))
+        with sqlite3.connect("utils/database/main.db") as db:
+            cur = db.cursor()
+            cur.execute(f"INSERT INTO Profiles (name, password) VALUES ('{name}', '{password}')")
+
+            db.commit()
+        
+        print(f"Profile {name} Created!")
 
     elif do.lower() in ["q", "quit"]:
         quit()
