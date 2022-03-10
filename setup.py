@@ -13,7 +13,7 @@ with sqlite3.connect("utils/database/main.db") as db:
         password TEXT
     )""")
 
-    cur.execute(f"INSERT INTO Profiles (name, password) VALUES ('master', '{password}')")
+    cur.execute(f"INSERT INTO Profiles (name, password) VALUES ('testing', '{password}')")
 
     db.commit()
 
