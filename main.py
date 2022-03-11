@@ -1,10 +1,32 @@
 from utils import *
+import pyfiglet
+import time
+import os
+
+os.system("clear")
+print(pyfiglet.figlet_format("Password Manager"))
+
+COLORS = {
+    # Colors
+    "red": "\033[91m",
+    "yellow": "\033[93m",
+    "green": "\033[92m",
+    "blue": "\033[94m",
+    "cyan": "\033[96m",
+    "magenta": "\u001b[35m",
+    "purple": "\033[95m",
+    "black": "\u001b[30m",
+    # Effects
+    "reset": "\u001b[0m",
+    "bold": "\033[1m",
+    "underline": "\033[4m",
+}
 
 profiles = get_main_db()
 
 divider = "-----------------------------------------------------------------------------------------------------------------------\n"
 
-lockImg = """                               
+lockImg = f"""{COLORS["red"]}                               
                                    
                                                           ^jEQBQDj^             
                                                        r#@@@@@@@@@#r           
@@ -21,9 +43,9 @@ lockImg = """
                                                     v###################v       
                                                    
                                                                 
-    """
+    {COLORS["reset"]}"""
 
-checkImg = """                               
+checkImg = f"""{COLORS["green"]}                               
                                    
                                                                        `xx.  
                                                                      'k#@@@h`
@@ -33,16 +55,17 @@ checkImg = """
                                                 T#@@@Qr      ^g@@@@@@5,      
                                                 y@@@@@@Bv  ?Q@@@@@@s-        
                                                 `V#@@@@@#B@@@@@@w'          
-                                                    `}#@@@@@@@@#T`            
+                                                    `t#@@@@@@@@#T`            
                                                       vB@@@@Bx               
                                                         )ER)                            
                                                                                                        
-    """
+    {COLORS['reset']}"""
 
 
 print(lockImg)
 
 def login():
+    os.system("clear")
     profile_name_list = '\n'.join([f"{p} : {i[1]}" for p, i in enumerate(profiles)])
     print(f"\nLogin\n-----\n\nProfiles:\n{profile_name_list}\n\n")
     print("Enter Profile Number:")
@@ -60,17 +83,24 @@ def login():
     correct_password = profile[2]
     tries = 0
 
-    # passwords = get_profile(profile_number+1)
-
     while True:
         password = input(f"Enter password for {profile[1]}: ")
         password = encrypt(password)
 
         if password == correct_password:
             profile_number = profile[0]
-            print("Correct")
+            print(checkImg)
+            for i in range(3):
+                time.sleep(0.3)
+                print("Loading Account .  ", end="\r")
+                time.sleep(0.3)
+                print("Loading Account .. ", end="\r")
+                time.sleep(0.3)
+                print("Loading Account ...", end="\r")
+                time.sleep(0.3)
+                print("Loading Account    ", end="\r")
             break
-        print(f"Wrong Password! ({3 - tries} attempts remaining)")
+        print(f"{COLORS['red']}Wrong Password! ({3 - tries} attempts remaining){COLORS['reset']}")
         tries += 1
 
         if tries >= 4:
@@ -81,9 +111,10 @@ def login():
 
 
 def logged_in(key, num):
+    os.system("clear")
     while True:
         profile = get_profile(num)
-        do = input("\nWhat would you like to do?\nOptions:\nl or logout - to logout\ng or get - to get passwords\nf or find - to find specific password\ni to insert - To add a new password\n> ")
+        do = input(f"{COLORS['yellow']}\nWhat would you like to do?\nOptions:\nl or logout - to logout\ng or get - to get passwords\nf or find - to find specific password\ni to insert - To add a new password\n> ")
 
         if do.lower() in ["i", "insert"]:
             name = input("Enter the name of the password: ")
@@ -101,7 +132,7 @@ def logged_in(key, num):
                 print(divider)
         
         elif do.lower() in ["f", "find"]:
-            search_type = int(input("Search Type:\n\n0: ID\n1: Name\n\nType 0 or 1"))
+            search_type = int(input("Search Type:\n\n0: ID\n1: Name\n\nType 0 or 1\n> "))
             found = False
 
             if search_type == 0:
@@ -134,7 +165,7 @@ def logged_in(key, num):
 
 while True:
     profiles = get_main_db()
-    do = input("\nWhat would you like to do?\nOptions:\nl or login - to login\nc to create - To create a new profile\nq or quit - To quit\n> ")
+    do = input(f"{COLORS['cyan']}\nWhat would you like to do?\nOptions:\nl or login - to login\nc to create - To create a new profile\nq or quit - To quit\n> {COLORS['reset']}")
 
     if do.lower() in ["l", "login"]:
         log = login()
@@ -158,3 +189,5 @@ while True:
 
     else:
         print("Invalid Option")
+
+    os.system("clear")
