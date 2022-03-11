@@ -25,14 +25,17 @@ def get_db() -> List:
 
 
 def get_main_db() -> List:
-    with sqlite3.connect("utils/database/main.db") as db:
-        cur = db.cursor()
-        cur.execute("SELECT * FROM Profiles")
+    try:
+        with sqlite3.connect("utils/database/main.db") as db:
+            cur = db.cursor()
+            cur.execute("SELECT * FROM Profiles")
 
-    data = cur.fetchall()
+        data = cur.fetchall()
 
-    return data
-
+        return data
+    except:
+        print("ERROR:\nNo table found\nPlease run setup.py first")
+        quit()
 
 def insert_password(name : str, password : str, profile : int) -> bool:
     key = get_key()

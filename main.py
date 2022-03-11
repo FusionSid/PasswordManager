@@ -105,7 +105,7 @@ def login():
 
         if tries >= 4:
             print("Out of tries")
-            break
+            quit()
     
     return profile
 
@@ -164,7 +164,6 @@ def logged_in(key, num):
             print("Invalid Option")
 
 while True:
-    profiles = get_main_db()
     do = input(f"{COLORS['cyan']}\nWhat would you like to do?\nOptions:\nl or login - to login\nc to create - To create a new profile\nq or quit - To quit\n> {COLORS['reset']}")
 
     if do.lower() in ["l", "login"]:

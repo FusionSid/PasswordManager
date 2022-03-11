@@ -7,9 +7,8 @@ from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
 
-load_dotenv()
-
 def encrypt(text : str) -> str:
+    load_dotenv()
     SALT = (os.environ["SALT"]).encode()
     ITERATIONS = int(os.environ["ITERATIONS"])
 

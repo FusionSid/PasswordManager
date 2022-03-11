@@ -2,6 +2,12 @@ import sqlite3
 import random
 from utils import *
 
+SALT = input("Type something random here for the salt: ")
+ITERATIONS = random.randint(100000, 1000000)
+
+with open(".env", "w") as f:
+    f.write(f"SALT = {SALT}\nITERATIONS = {ITERATIONS}")
+
 password = input("Set password for master Profile: ")
 password = encrypt(password)
 
@@ -27,13 +33,3 @@ with sqlite3.connect("utils/database/passwords.db") as db:
         password TEXT,
         profile INTEGER
     )""")
-
-SALT = input("Type something random here for the salt")
-ITERATIONS = random.randint(100000, 1000000)
-
-with open(".env", "w") as f:
-    f.write(f"""
-SALT = {SALT}   
-ITERATIONS = {ITERATIONS}
-""")
-
