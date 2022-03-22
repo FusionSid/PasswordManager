@@ -125,23 +125,28 @@ def logged_in(key, num):
             if profile is None or len(profile) == 0:
                 print("You don't have anything stored")
             else:
+                print(COLORS['blue'])
                 print(divider)
                 for i in profile:
                     password = decrypt_password(key, i[2]).decode()
                     print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
                 print(divider)
+                print(COLORS['reset'], COLORS['yellow'])
         
         elif do.lower() in ["f", "find"]:
             search_type = int(input("Search Type:\n\n0: ID\n1: Name\n\nType 0 or 1\n> "))
             found = False
-
             if search_type == 0:
                 _id = int(input("Enter ID: "))
                 for i in profile:
                     if i[0] == _id:
                         found = True
+                        print(COLORS['blue'])
+                        print(divider)
                         password = decrypt_password(key, i[2]).decode()
                         print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
+                        print(divider)
+                        print(COLORS['reset'], COLORS['yellow'])
                 if found == False:
                     print("Not found")
 
@@ -151,8 +156,12 @@ def logged_in(key, num):
                 for i in profile:
                     if i[1].lower() == name.lower():
                         found = True
+                        print(COLORS['blue'])
+                        print(divider)
                         password = decrypt_password(key, i[2]).decode()
                         print(f"\nID: {i[0]}\nName: {i[1]}\nPassword: {password}\n")
+                        print(divider)
+                        print(COLORS['reset'], COLORS['yellow'])
                 if found == False:
                     print("Not found")
 
@@ -162,6 +171,9 @@ def logged_in(key, num):
 
         else:
             print("Invalid Option")
+            
+        input("Press the ENTER key to continue ")
+        os.system("clear")
 
 while True:
     do = input(f"{COLORS['cyan']}\nWhat would you like to do?\nOptions:\nl or login - to login\nc to create - To create a new profile\nq or quit - To quit\n> {COLORS['reset']}")

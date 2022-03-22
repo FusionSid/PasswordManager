@@ -1,12 +1,20 @@
+from Crypto.Hash import SHA256
+
+import base64
 import sqlite3
-from typing import *
-from .encrypt import *
+from .encrypt import encrypt, encrypt_password
 
 
-cwd = "" # if youre running the script in this file then leave this as "", but if you running this from another folder, put the full path in there and make sure it ends with a /
+cwd = "/Users/siddheshzantye/Desktop/Coding/Python/PasswordManager/" # if youre running the script in this file then leave this as "", but if you running this from another folder, put the full path in there and make sure it ends with a /
 
 
 def get_key() -> str:
+    """
+    Generates a key
+
+    Returns
+        str : The key
+    """
     with sqlite3.connect(f"{cwd}utils/database/main.db") as db:
         cur = db.cursor()
         cur.execute("SELECT * FROM Profiles")
@@ -18,7 +26,10 @@ def get_key() -> str:
     return key
 
 
-def get_db() -> List:
+def get_db() -> list:
+    """
+    Returns the whole db file
+    """
     with sqlite3.connect(f"{cwd}utils/database/passwords.db") as db:
         cur = db.cursor()
         cur.execute("SELECT * FROM Passwords")
@@ -28,7 +39,10 @@ def get_db() -> List:
     return list(data)
 
 
-def get_main_db() -> List:
+def get_main_db() -> list:
+    """
+    Returns the whole main db file
+    """
     try:
         with sqlite3.connect(f"{cwd}utils/database/main.db") as db:
             cur = db.cursor()
@@ -41,7 +55,16 @@ def get_main_db() -> List:
         print(f"ERROR: {e}\nNo table found\nPlease run setup.py first")
         quit()
 
+
 def insert_password(name : str, password : str, profile : int) -> bool:
+    """
+    Inserts a password into an account
+
+    Parameters
+        :param name (str): The name of the password
+        :param password (str): The password
+        :param profile (int): The number of the profile
+    """
     key = get_key()
     password = password.encode()
     encrypted_password = encrypt_password(key, password)
@@ -51,7 +74,14 @@ def insert_password(name : str, password : str, profile : int) -> bool:
         
         db.commit()
 
-def get_profile(number):
+
+def get_profile(number : int) -> list:
+    """
+    Gets a profile with an id
+
+    Parameters
+        :param number (int) : The profiles number
+    """
     with sqlite3.connect(f"{cwd}utils/database/passwords.db") as db:
         cur = db.cursor()
         cur.execute(f"SELECT * FROM Passwords WHERE profile={number}")
