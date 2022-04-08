@@ -30,7 +30,7 @@ async def login():
     table.add_column("Profile Name:", justify="center", style="cyan", no_wrap=True)
     for index, _profile in enumerate(profiles):
         table.add_row(str(index), _profile[1])
-    
+
     console.print(table)
 
     console.print("\n[blue]Enter Profile Number:")
@@ -39,7 +39,7 @@ async def login():
     while True:
         try:
             profile_number = int(Prompt.ask(""))
-            
+
             if profile_number + 1 > len(profiles):
                 console.print("[red]Profile number to high")
             elif profile_number < 0:
@@ -62,14 +62,14 @@ async def login():
             profile_number = profile[0]
             console.print(f"[green]{checkImg}")
             console.print(f"[green]{divider}\n")
+
             async def process_data():
                 await asyncio.sleep(0.02)
-            for _ in track(range(100), description='[green]Loading Account'):
+
+            for _ in track(range(100), description="[green]Loading Account"):
                 await process_data()
             break
-        console.print(
-            f"[red]Wrong Password! ({3 - tries} attempts remaining)"
-        )
+        console.print(f"[red]Wrong Password! ({3 - tries} attempts remaining)")
         tries += 1
 
         if tries >= 4:
@@ -95,8 +95,12 @@ async def logged_in(key, num):
 
         elif what_to_do == "f" or what_to_do == "find":
             search_type_table = Table(title="Search Types:")
-            search_type_table.add_column("Number:", justify="center", style="cyan", no_wrap=True)
-            search_type_table.add_column("Type:", justify="center", style="cyan", no_wrap=True)
+            search_type_table.add_column(
+                "Number:", justify="center", style="cyan", no_wrap=True
+            )
+            search_type_table.add_column(
+                "Type:", justify="center", style="cyan", no_wrap=True
+            )
             search_type_table.add_row("0", "ID Search")
             search_type_table.add_row("1", "Name Search")
             console.print(search_type_table)
@@ -105,9 +109,15 @@ async def logged_in(key, num):
             found = False
             if search_type == 0:
                 data_table = Table(title="Info")
-                data_table.add_column("ID:", justify="center", style="cyan", no_wrap=True)
-                data_table.add_column("Name:", justify="center", style="cyan", no_wrap=True)
-                data_table.add_column("Password:", justify="center", style="cyan", no_wrap=True)
+                data_table.add_column(
+                    "ID:", justify="center", style="cyan", no_wrap=True
+                )
+                data_table.add_column(
+                    "Name:", justify="center", style="cyan", no_wrap=True
+                )
+                data_table.add_column(
+                    "Password:", justify="center", style="cyan", no_wrap=True
+                )
 
                 _id = int(Prompt.ask("[blue]Enter ID"))
                 for i in profile:
@@ -123,12 +133,17 @@ async def logged_in(key, num):
                 if found == False:
                     print("Not found")
 
-
             if search_type == 1:
                 data_table = Table(title="Info")
-                data_table.add_column("ID:", justify="center", style="cyan", no_wrap=True)
-                data_table.add_column("Name:", justify="center", style="cyan", no_wrap=True)
-                data_table.add_column("Password:", justify="center", style="cyan", no_wrap=True)
+                data_table.add_column(
+                    "ID:", justify="center", style="cyan", no_wrap=True
+                )
+                data_table.add_column(
+                    "Name:", justify="center", style="cyan", no_wrap=True
+                )
+                data_table.add_column(
+                    "Password:", justify="center", style="cyan", no_wrap=True
+                )
 
                 name = Prompt.ask("[blue]Enter name")
                 for i in profile:
@@ -142,18 +157,19 @@ async def logged_in(key, num):
                 if found == False:
                     print("Not found")
 
-
         elif what_to_do == "g" or what_to_do == "get":
             if profile is None or len(profile) == 0:
                 print("You don't have anything stored")
                 continue
 
             console.print(f"[green]{divider}")
-            
+
             data_table = Table(title="Info")
             data_table.add_column("ID:", justify="center", style="cyan", no_wrap=True)
             data_table.add_column("Name:", justify="center", style="cyan", no_wrap=True)
-            data_table.add_column("Password:", justify="center", style="cyan", no_wrap=True)
+            data_table.add_column(
+                "Password:", justify="center", style="cyan", no_wrap=True
+            )
 
             for pswd_set in profile:
                 password = utils.decrypt_password(key, pswd_set[2]).decode()
@@ -163,7 +179,8 @@ async def logged_in(key, num):
 
             console.print(f"[green]{divider}")
 
-        elif what_to_do == "l" or what_to_do == "logout": return
+        elif what_to_do == "l" or what_to_do == "logout":
+            return
 
         else:
             table = await get_logged_in_options()
@@ -200,12 +217,10 @@ async def get_options():
         "Login",
         "l or login",
     )
-    table.add_row(
-        "Quit the program", 
-        "q or quit"
-    )
+    table.add_row("Quit the program", "q or quit")
 
     return table
+
 
 async def get_logged_in_options():
     table = Table(title="\n[bold red]Options")
@@ -224,10 +239,7 @@ async def get_logged_in_options():
         "Find password",
         "f or find",
     )
-    table.add_row(
-        "Insert password", 
-        "i or insert"
-    )
+    table.add_row("Insert password", "i or insert")
 
     return table
 
@@ -239,6 +251,7 @@ os.system("clear")
 console.print(f"[green]{divider}")
 console.print(f"[green]{lockImg}")
 console.print(f"[green]{divider}")
+
 
 async def main():
     await asyncio.sleep(1.5)

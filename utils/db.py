@@ -5,7 +5,8 @@ import sqlite3
 from .encrypt import encrypt, encrypt_password
 
 
-cwd = "/Users/siddheshzantye/Desktop/Coding/Python/Password-Manager/" # if youre running the script in this file then leave this as "", but if you running this from another folder, put the full path in there and make sure it ends with a /
+cwd = ""  # This is the path to where the script is saved.
+# If you are running this in the file it wont matter but if you are runnning it from somewhere else put the absolute path
 
 
 def get_key() -> str:
@@ -56,7 +57,7 @@ def get_main_db() -> list:
         quit()
 
 
-def insert_password(name : str, password : str, profile : int) -> bool:
+def insert_password(name: str, password: str, profile: int) -> bool:
     """
     Inserts a password into an account
 
@@ -70,12 +71,15 @@ def insert_password(name : str, password : str, profile : int) -> bool:
     encrypted_password = encrypt_password(key, password)
     with sqlite3.connect(f"{cwd}utils/database/passwords.db") as db:
         cur = db.cursor()
-        cur.execute("INSERT INTO Passwords (name, password, profile) VALUES (?, ?, ?)", (name, encrypted_password, profile))
-        
+        cur.execute(
+            "INSERT INTO Passwords (name, password, profile) VALUES (?, ?, ?)",
+            (name, encrypted_password, profile),
+        )
+
         db.commit()
 
 
-def get_profile(number : int) -> list:
+def get_profile(number: int) -> list:
     """
     Gets a profile with an id
 

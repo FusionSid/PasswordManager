@@ -7,7 +7,8 @@ from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
 
-def encrypt(text : str) -> str:
+
+def encrypt(text: str) -> str:
     load_dotenv()
     SALT = (os.environ["SALT"]).encode()
     ITERATIONS = int(os.environ["ITERATIONS"])
@@ -32,9 +33,9 @@ def encrypt_password(key, source):
 def decrypt_password(key, source):
     source = base64.b64decode(source.encode("latin-1"))
     key = SHA256.new(key).digest()
-    IV = source[:AES.block_size]
+    IV = source[: AES.block_size]
     decryptor = AES.new(key, AES.MODE_CBC, IV)
-    data = decryptor.decrypt(source[AES.block_size:])
+    data = decryptor.decrypt(source[AES.block_size :])
     padding = data[-1]
     if data[-padding:] != bytes([padding]) * padding:
         raise ValueError("Invalid padding...")
