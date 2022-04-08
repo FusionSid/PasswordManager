@@ -5,7 +5,7 @@ import sqlite3
 from .encrypt import encrypt, encrypt_password
 
 
-cwd = ""  # This is the path to where the script is saved.
+cwd = "/Users/siddheshzantye/Desktop/Coding/Python/Password-Manager/"  # This is the path to where the script is saved.
 # If you are running this in the file it wont matter but if you are runnning it from somewhere else put the absolute path
 
 

@@ -3,3 +3,4 @@ pycryptodome==3.14.1
 pyfiglet==0.8.post1
 python-dotenv==0.20.0
 rich==12.2.0
+clipboard==0.0.4

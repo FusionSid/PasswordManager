@@ -4,6 +4,7 @@ import asyncio
 import pyfiglet
 import aiosqlite
 
+import clipboard
 from getpass import getpass
 
 from rich.table import Table
@@ -60,6 +61,7 @@ async def login():
 
         if password == correct_password:
             profile_number = profile[0]
+            console.print(f"[green]{divider}")
             console.print(f"[green]{checkImg}")
             console.print(f"[green]{divider}\n")
 
@@ -128,6 +130,9 @@ async def logged_in(key, num):
                         password = utils.decrypt_password(key, i[2]).decode()
                         data_table.add_row(str(i[0]), i[1], password)
                         console.print(data_table)
+                        copy = Confirm.ask("Copy to clipboard?")
+                        if copy:
+                            clipboard.copy(password)
                         console.print(f"[green]{divider}")
 
                 if found == False:
@@ -152,6 +157,10 @@ async def logged_in(key, num):
                         console.print(f"[green]{divider}")
                         password = utils.decrypt_password(key, i[2]).decode()
                         data_table.add_row(str(i[0]), i[1], password)
+                        console.print(data_table)
+                        copy = Confirm.ask("Copy to clipboard?")
+                        if copy:
+                            clipboard.copy(password)
                         console.print(f"[green]{divider}")
 
                 if found == False:
@@ -160,6 +169,8 @@ async def logged_in(key, num):
         elif what_to_do == "g" or what_to_do == "get":
             if profile is None or len(profile) == 0:
                 print("You don't have anything stored")
+                Prompt.ask("[yellow]Press any key to continue ")
+                os.system("clear")
                 continue
 
             console.print(f"[green]{divider}")
@@ -186,7 +197,7 @@ async def logged_in(key, num):
             table = await get_logged_in_options()
             console.print(table)
 
-        Prompt.ask("[yellow]Press the ENTER key to continue ")
+        Prompt.ask("[yellow]Press any key to continue ")
         os.system("clear")
 
 
@@ -262,7 +273,7 @@ async def main():
 
         if what_to_do == "l" or what_to_do == "login":
             log = await login()
-            profile = utils.get_profile(log[0])
+            utils.get_profile(log[0])
             key = utils.get_key()
             await logged_in(key, log[0])
 
