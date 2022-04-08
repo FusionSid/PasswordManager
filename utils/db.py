@@ -5,7 +5,7 @@ import sqlite3
 from .encrypt import encrypt, encrypt_password
 
 
-cwd = "/Users/siddheshzantye/Desktop/Coding/Python/PasswordManager/" # if youre running the script in this file then leave this as "", but if you running this from another folder, put the full path in there and make sure it ends with a /
+cwd = "/Users/siddheshzantye/Desktop/Coding/Python/Password-Manager/" # if youre running the script in this file then leave this as "", but if you running this from another folder, put the full path in there and make sure it ends with a /
 
 
 def get_key() -> str:

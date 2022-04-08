@@ -1,14 +1,22 @@
-import sqlite3
 import random
-from utils import *
+import sqlite3
 
-SALT = input("Type something random here for the salt: ")
+from getpass import getpass
+from rich.console import Console
+from rich.prompt import Prompt
+
+from utils import encrypt
+
+console = Console()
+
+SALT = Prompt.ask("[red]Type something random here for the salt")
 ITERATIONS = random.randint(100000, 1000000)
 
 with open(".env", "w") as f:
     f.write(f"SALT = {SALT}\nITERATIONS = {ITERATIONS}")
 
-password = input("Set password for master Profile: ")
+console.print("[blue]Set password for master profile: ", end="")
+password = getpass("")
 password = encrypt(password)
 
 with sqlite3.connect("utils/database/main.db") as db:
